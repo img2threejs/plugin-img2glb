@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "name": "img2glb",
+  "version": "0.1.0",
+  "description": "Turn an image into a GLB 3D mesh via the hosted TRELLIS space",
+  "capabilities": [{ "from": "image", "to": "glb" }],
+  "requires": { "harness": ">=0.1.0", "coreApi": 1 }
+}

@@ -1,0 +1,8 @@
+[
+  {
+    "id": "generate-glb",
+    "title": "Generate a GLB mesh from the reference image via hosted TRELLIS",
+    "command": "python3 {plugin_dir}/tools/img2glb.py --image {image} --workspace {workspace}",
+    "after": []
+  }
+]

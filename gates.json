@@ -1,0 +1,8 @@
+[
+  {
+    "id": "glb-artifact",
+    "command": "python3 {plugin_dir}/tools/gate_glb_artifact.py --workspace {workspace}",
+    "blocking": true,
+    "after": []
+  }
+]
