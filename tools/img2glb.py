@@ -74,9 +74,10 @@ def now_utc():
 
 
 def record(workspace, key, payload):
-    doc = state.load_state(workspace)
-    state.plugin_state(doc, PLUGIN)[key] = payload
-    state.save_state(workspace, doc)
+    def apply(entry):
+        entry[key] = payload
+
+    state.update_plugin_state(workspace, PLUGIN, apply)
 
 
 def probe(args, workspace):
