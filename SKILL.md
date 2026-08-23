@@ -19,10 +19,14 @@ the plumbing, not a generated mesh.
 
 ## Usage
 
+Run every command from the user's project directory and pass that directory as
+`--workspace`. Never point `--workspace` at this skill directory or any checkout.
+`$SKILL_DIR` below is the directory containing this SKILL.md.
+
 Probe (offline validation + plan):
 
 ```bash
-python3 tools/img2glb.py --probe --image reference.png --workspace /path/to/project
+python3 "$SKILL_DIR/tools/img2glb.py" --probe --image <path/to/image> --workspace "$PWD"
 ```
 
 Prints an `img2.probe` envelope on stdout and exits 0; exits 2 when the input image
@@ -31,7 +35,7 @@ is missing, unreadable, or empty.
 Live generation (network + `gradio_client`/`huggingface_hub`):
 
 ```bash
-python3 tools/img2glb.py --image reference.png --workspace /path/to/project \
+python3 "$SKILL_DIR/tools/img2glb.py" --image <path/to/image> --workspace "$PWD" \
   [--space trellis-community/TRELLIS] [--seed 0] [--mesh-simplify 0.95] \
   [--texture-size 512] [--hf-token TOKEN]
 ```
@@ -39,7 +43,7 @@ python3 tools/img2glb.py --image reference.png --workspace /path/to/project \
 Gate (offline, verifies the emitted artifact):
 
 ```bash
-python3 tools/gate_glb_artifact.py --workspace /path/to/project [--input reference.png]
+python3 "$SKILL_DIR/tools/gate_glb_artifact.py" --workspace "$PWD" [--input <path/to/image>]
 ```
 
 Without `--input` the gate verifies the last generation recorded in workspace state —
