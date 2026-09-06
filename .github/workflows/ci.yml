@@ -3,15 +3,20 @@ on:
   pull_request:
   push:
     branches: [main]
+permissions:
+  contents: read
 jobs:
-  version-sync:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - run: |
-          pkg=$(node -p "require('./package.json').version")
-          plg=$(node -p "require('./plugin.json').version")
-          if [ "$pkg" != "$plg" ]; then
-            echo "version mismatch: package.json=$pkg plugin.json=$plg"
-            exit 1
-          fi
+  test:
+    # ci-workflows python-ci @ main
+    uses: img2threejs/ci-workflows/.github/workflows/python-ci.yml@4b7a0612d2c52815792124a18ae3f9032a4f0a88
+    with:
+      python-version: '3.12'
+      test-command: |
+        pkg="$(node -p 'require("./package.json").version')"
+        plg="$(node -p 'require("./plugin.json").version')"
+        if [ "$pkg" != "$plg" ]; then
+          echo "version mismatch: package.json=$pkg plugin.json=$plg"
+          exit 1
+        fi
+        git clone --depth 1 https://github.com/img2threejs/img2 ../img2-harness
+        python3 -m unittest discover -s tests
