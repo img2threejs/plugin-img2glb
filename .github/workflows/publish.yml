@@ -1,0 +1,23 @@
+name: publish
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+  id-token: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - run: npm install -g npm@latest
+      - run: |
+          pkg=$(node -p "require('./package.json').version")
+          plg=$(node -p "require('./plugin.json').version")
+          [ "$pkg" = "$plg" ] || { echo "version mismatch: package.json=$pkg plugin.json=$plg"; exit 1; }
+          [ "v$pkg" = "$GITHUB_REF_NAME" ] || { echo "tag $GITHUB_REF_NAME != v$pkg"; exit 1; }
+      - run: npm publish --provenance --access public

@@ -1,0 +1,17 @@
+name: ci
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  version-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          pkg=$(node -p "require('./package.json').version")
+          plg=$(node -p "require('./plugin.json').version")
+          if [ "$pkg" != "$plg" ]; then
+            echo "version mismatch: package.json=$pkg plugin.json=$plg"
+            exit 1
+          fi
