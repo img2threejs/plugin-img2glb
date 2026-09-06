@@ -1,0 +1,23 @@
+name: publish
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+jobs:
+  publish:
+    # ci-workflows npm-publish (feat/reusable-npm-publish); re-pin to the merged main SHA once img2threejs/ci-workflows#2 lands
+    uses: img2threejs/ci-workflows/.github/workflows/npm-publish.yml@27da7a68505591492cb4ef7358968890c6e39844
+    permissions:
+      contents: read
+      id-token: write
+    with:
+      tag: ${{ github.ref_name }}
+      version-file: plugin.json
+      node-version: '24'
+      python-version: '3.12'
+      test-command: |
+        git clone --depth 1 https://github.com/img2threejs/img2 ../img2-harness
+        python3 -m unittest discover -s tests
+    secrets:
+      npm-token: ${{ secrets.NPM_TOKEN }}

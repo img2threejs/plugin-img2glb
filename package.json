@@ -1,0 +1,20 @@
+{
+  "name": "@img2threejs/plugin-img2glb",
+  "version": "0.1.0",
+  "description": "Turn an image into a GLB 3D mesh via the hosted TRELLIS space",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/img2threejs/plugin-img2glb.git"
+  },
+  "files": [
+    "SKILL.md",
+    "gates.json",
+    "plugin.json",
+    "steps.json",
+    "tools"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
